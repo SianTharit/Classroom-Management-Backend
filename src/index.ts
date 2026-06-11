@@ -1,42 +1,42 @@
 import { eq } from "drizzle-orm";
 import { index } from "./db/index.js";
-import { demoUsers } from "./db/schema/index.js";
+import { departments } from "./db/schema/index.js";
 
 async function main() {
   try {
     console.log("Performing CRUD operations...");
 
-    const [newUser] = await index
-      .insert(demoUsers)
-      .values({ name: "Admin User", email: "admin@example.com" })
+    const [newDepartment] = await index
+      .insert(departments)
+      .values({ code: "ADM", name: "Administration", description: "Admin department" })
       .returning();
 
-    if (!newUser) {
-      throw new Error("Failed to create user");
+    if (!newDepartment) {
+      throw new Error("Failed to create department");
     }
 
-    console.log("✅ CREATE: New user created:", newUser);
+    console.log("✅ CREATE: New department created:", newDepartment);
 
-    const foundUser = await index
+    const foundDepartment = await index
       .select()
-      .from(demoUsers)
-      .where(eq(demoUsers.id, newUser.id));
-    console.log("✅ READ: Found user:", foundUser[0]);
+      .from(departments)
+      .where(eq(departments.id, newDepartment.id));
+    console.log("✅ READ: Found department:", foundDepartment[0]);
 
-    const [updatedUser] = await index
-      .update(demoUsers)
-      .set({ name: "Super Admin" })
-      .where(eq(demoUsers.id, newUser.id))
+    const [updatedDepartment] = await index
+      .update(departments)
+      .set({ name: "Administration Updated" })
+      .where(eq(departments.id, newDepartment.id))
       .returning();
 
-    if (!updatedUser) {
-      throw new Error("Failed to update user");
+    if (!updatedDepartment) {
+      throw new Error("Failed to update department");
     }
 
-    console.log("✅ UPDATE: User updated:", updatedUser);
+    console.log("✅ UPDATE: Department updated:", updatedDepartment);
 
-    await index.delete(demoUsers).where(eq(demoUsers.id, newUser.id));
-    console.log("✅ DELETE: User deleted.");
+    await index.delete(departments).where(eq(departments.id, newDepartment.id));
+    console.log("✅ DELETE: Department deleted.");
 
     console.log("\nCRUD operations completed successfully.");
   } catch (error) {
