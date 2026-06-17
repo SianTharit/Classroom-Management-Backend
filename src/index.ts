@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import subjectsRouter from "./routes/subjects.js";
+import securityMiddleware from "./middleware/security.js";
 
 const app = express();
 const PORT = 5000;
@@ -16,6 +17,8 @@ app.use(cors({
 }))
 
 app.use(express.json());
+
+app.use(securityMiddleware);
 
 app.use('/api/subjects', subjectsRouter)
 
