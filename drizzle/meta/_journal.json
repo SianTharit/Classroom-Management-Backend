@@ -15,6 +15,13 @@
       "when": 1781319093060,
       "tag": "0001_stormy_rawhide_kid",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1781665800191,
+      "tag": "0002_tranquil_agent_brand",
+      "breakpoints": true
     }
   ]
 }
